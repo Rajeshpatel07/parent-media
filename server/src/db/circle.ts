@@ -38,7 +38,13 @@ export const getMembersInCircles = async (circleId: string) => {
 	const members = await prisma.circle.findFirst({
 		where: { id: circleId },
 		select: {
-			members: true
+			members: {
+				select: {
+					id: true,
+					pname: true,
+					sname: true,
+				}
+			}
 		}
 	})
 	return members ? members.members : null;

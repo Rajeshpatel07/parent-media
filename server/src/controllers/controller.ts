@@ -42,7 +42,8 @@ export const signup = async (req: Request, res: Response) => {
 			await checkCircles([society], newUser.id);
 		}
 
-		return res.status(201).json({ message: "User signed up successfully", userId: newUser.id });
+		res.status(201).json({ message: "User signed up successfully", userId: newUser.id });
+		return;
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ err: "Internal server error" });
@@ -213,6 +214,8 @@ export const getRepliesToPost = async (req: Request, res: Response) => {
 			res.status(404).json({ err: "Replies not found" });
 			return;
 		}
+		res.status(200).json({ replies });
+		return;
 	} catch (err) {
 		console.log(err)
 		res.status(500).json({ err: "Internal server error" });

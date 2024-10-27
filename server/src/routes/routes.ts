@@ -15,11 +15,10 @@ import {
 
 const router = Router();
 
-router.route('/home').get(home)
+router.route('/home').get(home) //check if the server is working
 
 // User routes
 router.post('/signup', signup);
-
 // Circle routes
 router.get('/circles/:userId', getJoinedCircles); // Fetch circles joined by the user
 router.post('/circles/join', joinNewCircle); // Join a new circle
@@ -31,6 +30,6 @@ router.get('/posts/:postId/replies', getRepliesToPost); // Get replies to a spec
 router.put('/posts/upvote', upvotePost); // Upvote a post
 router.put('/posts/downvote', downvotePost); // Downvote a post
 router.post('/posts/new', createNewPost); // Create a new post
-router.post('/posts/:postId/reply', createNewReply); // Reply to a specific post
+router.post('/posts/reply/new', createNewReply); // Reply to a specific post
 
 export default router;
