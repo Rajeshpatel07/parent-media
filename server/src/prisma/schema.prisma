@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model user {
   id        String   @id @default(uuid())
   email     String   @unique
   password  String
@@ -18,28 +18,28 @@ model User {
   section   String
   society   String?
   cardImage String?
-  circles   Circle[] @relation("UserCircles")
+  circles   circle[] @relation("UserCircles")
 }
 
-model Circle {
+model circle {
   id      String @id @default(uuid())
   name    String
-  type    String
-  members User[] @relation("UserCircles")
+  members user[] @relation("UserCircles")
   posts   post[]
 }
 
 model post {
-  id        String   @id @default(uuid())
-  userId    String
-  content   String
-  upvotes   Int      @default(0)
-  downvotes Int      @default(0)
-  type      String
-  postedAt  DateTime @default(now())
-  replies   post[]   @relation("MessageReplies")
-  circleId  String?
-  circle    Circle?  @relation(fields: [circleId], references: [id])
-  parentId  String?
-  parent    post?    @relation("MessageReplies", fields: [parentId], references: [id])
+  id         String   @id @default(uuid())
+  userId     String
+  content    String
+  upvotes    Int      @default(0)
+  downvotes  Int      @default(0)
+  type       String
+  replycount Int      @default(0)
+  postedAt   DateTime @default(now())
+  replies    post[]   @relation("MessageReplies")
+  circleId   String?
+  circle     circle?  @relation(fields: [circleId], references: [id])
+  parentId   String?
+  parent     post?    @relation("MessageReplies", fields: [parentId], references: [id])
 }

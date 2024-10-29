@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "user" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
@@ -11,16 +11,15 @@ CREATE TABLE "User" (
     "society" TEXT,
     "cardImage" TEXT,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Circle" (
+CREATE TABLE "circle" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
 
-    CONSTRAINT "Circle_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "circle_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -31,6 +30,7 @@ CREATE TABLE "post" (
     "upvotes" INTEGER NOT NULL DEFAULT 0,
     "downvotes" INTEGER NOT NULL DEFAULT 0,
     "type" TEXT NOT NULL,
+    "replycount" INTEGER NOT NULL DEFAULT 0,
     "postedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "circleId" TEXT,
     "parentId" TEXT,
@@ -45,7 +45,7 @@ CREATE TABLE "_UserCircles" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_UserCircles_AB_unique" ON "_UserCircles"("A", "B");
@@ -54,13 +54,13 @@ CREATE UNIQUE INDEX "_UserCircles_AB_unique" ON "_UserCircles"("A", "B");
 CREATE INDEX "_UserCircles_B_index" ON "_UserCircles"("B");
 
 -- AddForeignKey
-ALTER TABLE "post" ADD CONSTRAINT "post_circleId_fkey" FOREIGN KEY ("circleId") REFERENCES "Circle"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "post" ADD CONSTRAINT "post_circleId_fkey" FOREIGN KEY ("circleId") REFERENCES "circle"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "post" ADD CONSTRAINT "post_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "post"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_UserCircles" ADD CONSTRAINT "_UserCircles_A_fkey" FOREIGN KEY ("A") REFERENCES "Circle"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_UserCircles" ADD CONSTRAINT "_UserCircles_A_fkey" FOREIGN KEY ("A") REFERENCES "circle"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_UserCircles" ADD CONSTRAINT "_UserCircles_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_UserCircles" ADD CONSTRAINT "_UserCircles_B_fkey" FOREIGN KEY ("B") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;

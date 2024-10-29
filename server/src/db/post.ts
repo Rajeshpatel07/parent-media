@@ -1,6 +1,5 @@
 import { prisma } from "../index.js";
 
-
 export const upvote = async (postId: string) => {
 	const response = await prisma.post.update({
 		where: { id: postId },
@@ -38,14 +37,21 @@ export const newPost = async (content: string, circleId: string, userId: string)
 	return post ? post : null;
 }
 
-export const newReply = async (postId: string, content: string, circleId: string, userId: string) => {
+export const newReply = async (postId: string, content: string, userId: string) => {
 	const post = await prisma.post.create({
 		data: {
 			content,
-			circleId,
 			userId,
 			type: "reply",
 			parentId: postId
+		}
+	})
+	await prisma.post.update({
+		where: { id: postId },
+		data: {
+			replycount: {
+				increment: 1
+			}
 		}
 	})
 

@@ -4,8 +4,6 @@ export const newCircle = async (name: string) => {
 	const circle = await prisma.circle.create({
 		data: {
 			name,
-			//FIX: fix the schema and function.
-			type: "School"
 		}
 	})
 	return circle;
@@ -24,7 +22,7 @@ export const getCircles = async (userId: string) => {
 
 
 export const getPostsInCircle = async (circleId: string) => {
-	const circle = await prisma.circle.findUnique({
+	const circle = await prisma.circle.findFirst({
 		where: { id: circleId },
 		select: {
 			posts: true

@@ -183,14 +183,14 @@ export const createNewPost = async (req: Request, res: Response) => {
 
 //NOTE: POST request
 export const createNewReply = async (req: Request, res: Response) => {
-	const { postId, content, circleId, userId } = req.body;
-	if (!postId || !content || !circleId || !userId) {
+	const { postId, content, userId } = req.body;
+	if (!postId || !content || !userId) {
 		res.status(400).json({ err: "Bad request: All fields is required" });
 		return;
 	}
 
 	try {
-		const post = await newReply(postId, content, circleId, userId);
+		const post = await newReply(postId, content, userId);
 		res.status(201).json({ post });
 		return;
 
