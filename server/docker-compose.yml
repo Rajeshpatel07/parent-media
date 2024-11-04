@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes: 
+      - postgres-data:/var/lib/postgres/data
+    networks:
+      - social
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  media:
+    build: .
+    ports:
+      - 5000:5000
+    depends_on: 
+      postgres: 
+        condition: service_healthy
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - social
+
+networks:
+  social:
+
+volumes:
+  postgres-data:
+
